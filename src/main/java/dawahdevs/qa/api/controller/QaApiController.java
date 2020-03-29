@@ -1,7 +1,9 @@
 package dawahdevs.qa.api.controller;
 
+import dawahdevs.qa.api.entity.Author;
 import dawahdevs.qa.api.entity.Question;
 import dawahdevs.qa.api.entity.User;
+import dawahdevs.qa.api.manager.AuthorManager;
 import dawahdevs.qa.api.manager.UserManager;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class QaApiController {
 
   private final QuestionManager qaApiManager;
   private final UserManager userManager;
+  private final AuthorManager authorManager;
 
   @GetMapping("/questions")
   public @ResponseBody
@@ -29,7 +32,7 @@ public class QaApiController {
     return qaApiManager.getQuestions();
   }
 
-  @GetMapping("/questions/{questionId}")
+  @GetMapping("/question/{questionId}")
   public @ResponseBody
   Optional<Question> getQuestion(@PathVariable final int questionId) {
     log.info("getting question {} ", questionId);
@@ -50,4 +53,10 @@ public class QaApiController {
     return userManager.getUser(userId);
   }
 
+  @GetMapping("/author/{authorId}")
+  public @ResponseBody
+  Optional<Author> getAuthor(@PathVariable final int authorId) {
+    log.info("getting author {}", authorId);
+    return authorManager.getAuthor(authorId);
+  }
 }
