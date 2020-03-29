@@ -5,6 +5,5 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class QuestionBackendResponse {
-
+public class ExampleResponse {
 }
