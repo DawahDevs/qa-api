@@ -19,4 +19,6 @@ public class User {
 
   @Length(max = 45)
   private String name;
+
+  private Lang defaultLang;
 }

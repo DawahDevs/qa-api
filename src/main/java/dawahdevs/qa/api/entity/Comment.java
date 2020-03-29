@@ -19,9 +19,11 @@ public class Comment {
 
   @ManyToOne
   @JoinColumn
-  private User userId;
+  private User user;
 
   @ManyToOne
   @JoinColumn
-  private Answer answerId;
+  private Answer answer;
+
+  private Lang lang;
 }

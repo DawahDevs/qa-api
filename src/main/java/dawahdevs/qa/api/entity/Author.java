@@ -20,4 +20,6 @@ public class Author {
   private Seniority seniority;
 
   private School school;
+
+  private Lang defaultLang;
 }

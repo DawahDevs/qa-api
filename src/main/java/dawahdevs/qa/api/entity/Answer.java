@@ -19,9 +19,11 @@ public class Answer {
 
   @OneToOne
   @JoinColumn
-  private Question questionId;
+  private Question question;
 
   @OneToOne
   @JoinColumn
-  private Author answeredBy;
+  private Author author;
+
+  private Lang lang;
 }

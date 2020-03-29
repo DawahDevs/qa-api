@@ -19,5 +19,7 @@ public class Question {
 
   @ManyToOne
   @JoinColumn
-  private User askedBy;
+  private User user;
+
+  private Lang lang;
 }
