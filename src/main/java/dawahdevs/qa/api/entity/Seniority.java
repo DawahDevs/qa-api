@@ -1,7 +1,7 @@
 package dawahdevs.qa.api.entity;
 
 public enum Seniority {
-  BEGGINER,
+  BEGINNER,
   INTERMEDIATE,
   EXPERT
 }
