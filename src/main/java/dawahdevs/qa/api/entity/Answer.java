@@ -4,19 +4,24 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-public class User {
+public class Answer {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Integer id;
 
-  @Length(max = 45)
-  private String name;
+  @Length(max = 100)
+  private String text;
+
+  @OneToOne
+  @JoinColumn
+  private Question questionId;
+
+  @OneToOne
+  @JoinColumn
+  private Author answeredBy;
 }

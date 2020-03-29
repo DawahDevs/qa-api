@@ -15,12 +15,13 @@ public class UserManager {
   private UserRepository userRepository;
 
   public @ResponseBody
+  Iterable<User> getUsers() {
+    return userRepository.findAll();
+  }
+
+  public @ResponseBody
   Optional<User> getUser(@PathVariable final int userId) {
     return userRepository.findById(userId);
   }
 
-  public @ResponseBody
-  Iterable<User> getUsers() {
-    return userRepository.findAll();
-  }
 }
