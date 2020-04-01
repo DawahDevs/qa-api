@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class Author {
+public class DbAuthor {
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Integer id;

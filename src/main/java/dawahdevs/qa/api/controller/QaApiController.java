@@ -1,62 +1,64 @@
 package dawahdevs.qa.api.controller;
 
-import dawahdevs.qa.api.entity.Author;
-import dawahdevs.qa.api.entity.Question;
-import dawahdevs.qa.api.entity.User;
-import dawahdevs.qa.api.manager.AuthorManager;
-import dawahdevs.qa.api.manager.UserManager;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import dawahdevs.qa.api.manager.QuestionManager;
+import dawahdevs.qa.api.manager.QaApiManager;
+import dawahdevs.qa.api.model.AllAuthorsResponse;
+import dawahdevs.qa.api.model.AllQuestionsResponse;
+import dawahdevs.qa.api.model.AllUsersResponse;
+import dawahdevs.qa.api.model.AuthorByIdResponse;
+import dawahdevs.qa.api.model.QuestionByIdResponse;
+import dawahdevs.qa.api.model.UserByIdResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Optional;
 
 @Slf4j
 @RestController
 @CrossOrigin
 @AllArgsConstructor
-@RequestMapping(value = "/v1/", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/v1/", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class QaApiController {
 
-  private final QuestionManager qaApiManager;
-  private final UserManager userManager;
-  private final AuthorManager authorManager;
+	private final QaApiManager qaApiManager;
 
-  @GetMapping("/questions")
-  public @ResponseBody
-  Iterable<Question> getQuestions() {
-    log.info("getting all questions response");
-    return qaApiManager.getQuestions();
-  }
+	@GetMapping("/questions")
+	public AllQuestionsResponse getQuestions() {
+		log.info("getting all questions response");
+		return qaApiManager.getQuestions();
+	}
 
-  @GetMapping("/question/{questionId}")
-  public @ResponseBody
-  Optional<Question> getQuestion(@PathVariable final int questionId) {
-    log.info("getting question {} ", questionId);
-    return qaApiManager.getQuestion(questionId);
-  }
+	@GetMapping("/questions/{questionId}")
+	public QuestionByIdResponse getQuestionById(@PathVariable final int questionId) {
+		log.info("getting question {} ", questionId);
+		return qaApiManager.getQuestionById(questionId);
+	}
 
-  @GetMapping("/users")
-  public @ResponseBody
-  Iterable<User> getUsers() {
-    log.info("getting all users");
-    return userManager.getUsers();
-  }
+	@GetMapping("/users")
+	public AllUsersResponse getUsers() {
+		log.info("getting all users");
+		return qaApiManager.getUsers();
+	}
 
-  @GetMapping("/user/{userId}")
-  public @ResponseBody
-  Optional<User> getUser(@PathVariable final int userId) {
-    log.info("getting user {}", userId);
-    return userManager.getUser(userId);
-  }
+	@GetMapping("/users/{userId}")
+	public UserByIdResponse getUserById(@PathVariable final int userId) {
+		log.info("getting user {}", userId);
+		return qaApiManager.getUserById(userId);
+	}
 
-  @GetMapping("/author/{authorId}")
-  public @ResponseBody
-  Optional<Author> getAuthor(@PathVariable final int authorId) {
-    log.info("getting author {}", authorId);
-    return authorManager.getAuthor(authorId);
-  }
+	@GetMapping("/authors")
+	public AllAuthorsResponse getAuthors() {
+		log.info("getting all authors");
+		return qaApiManager.getAuthors();
+	}
+
+	@GetMapping("/authors/{authorId}")
+	public AuthorByIdResponse getAuthorById(@PathVariable final int authorId) {
+		log.info("getting author {}", authorId);
+		return qaApiManager.getAuthorById(authorId);
+	}
 }
