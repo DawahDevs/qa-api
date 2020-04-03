@@ -2,7 +2,7 @@ package dawahdevs.qa.api.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import dawahdevs.qa.api.entity.DbUser;
+import dawahdevs.qa.api.entity.UserEntity;
 
-public interface UserRepository extends CrudRepository<DbUser, Integer> {
+public interface UserRepository extends CrudRepository<UserEntity, Integer> {
 }

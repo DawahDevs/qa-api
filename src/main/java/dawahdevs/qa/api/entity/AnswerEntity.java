@@ -5,7 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -15,7 +16,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class DbComment {
+@Table(name = "answer")
+public class AnswerEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -23,13 +25,13 @@ public class DbComment {
 	@Length(max = 100)
 	private String text;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn
-	private DbUser user;
+	private QuestionEntity question;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn
-	private DbAnswer answer;
+	private AuthorEntity author;
 
 	private Lang lang;
 }

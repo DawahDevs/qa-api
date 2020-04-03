@@ -2,9 +2,9 @@ package dawahdevs.qa.api.manager;
 
 import org.springframework.stereotype.Service;
 
-import dawahdevs.qa.api.entity.DbAuthor;
-import dawahdevs.qa.api.entity.DbQuestion;
-import dawahdevs.qa.api.entity.DbUser;
+import dawahdevs.qa.api.entity.AuthorEntity;
+import dawahdevs.qa.api.entity.QuestionEntity;
+import dawahdevs.qa.api.entity.UserEntity;
 import dawahdevs.qa.api.model.AllAuthorsResponse;
 import dawahdevs.qa.api.model.AllQuestionsResponse;
 import dawahdevs.qa.api.model.AllUsersResponse;
@@ -27,39 +27,39 @@ public class QaApiManager {
 	private final AuthorRepository authorRepository;
 
 	public AllQuestionsResponse getQuestions() {
-		Iterable<DbQuestion> questionList = questionRepository.findAll();
+		Iterable<QuestionEntity> questionList = questionRepository.findAll();
 
 		return qaApiTransformer.transformQuestionList(questionList);
 	}
 
 	public QuestionByIdResponse getQuestionById(final int questionId) {
-		DbQuestion dbQuestion = questionRepository.findById(questionId).orElseThrow(() -> new RuntimeException());
+		QuestionEntity questionEntity = questionRepository.findById(questionId).orElseThrow(() -> new RuntimeException());
 
-		return qaApiTransformer.transformQuestionById(dbQuestion);
+		return qaApiTransformer.transformQuestionById(questionEntity);
 	}
 
 	public AllUsersResponse getUsers() {
-		Iterable<DbUser> userList = userRepository.findAll();
+		Iterable<UserEntity> userList = userRepository.findAll();
 
 		return qaApiTransformer.transformUserList(userList);
 	}
 
 	public UserByIdResponse getUserById(final int userId) {
-		DbUser dbUser = userRepository.findById(userId).orElseThrow(() -> new RuntimeException());
+		UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException());
 
-		return qaApiTransformer.transformUserById(dbUser);
+		return qaApiTransformer.transformUserById(userEntity);
 	}
 
 	public AllAuthorsResponse getAuthors() {
-		Iterable<DbAuthor> authorList = authorRepository.findAll();
+		Iterable<AuthorEntity> authorList = authorRepository.findAll();
 
 		return qaApiTransformer.transformAuthorList(authorList);
 	}
 
 	public AuthorByIdResponse getAuthorById(final int authorId) {
-		DbAuthor dbAuthor = authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException());
+		AuthorEntity authorEntity = authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException());
 
-		return qaApiTransformer.transformAuthorById(dbAuthor);
+		return qaApiTransformer.transformAuthorById(authorEntity);
 	}
 
 }

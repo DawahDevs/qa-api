@@ -10,15 +10,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 
-import dawahdevs.qa.api.entity.DbAuthor;
-import dawahdevs.qa.api.entity.DbQuestion;
-import dawahdevs.qa.api.entity.DbUser;
+import dawahdevs.qa.api.entity.AuthorEntity;
 import dawahdevs.qa.api.entity.Lang;
+import dawahdevs.qa.api.entity.QuestionEntity;
 import dawahdevs.qa.api.entity.School;
 import dawahdevs.qa.api.entity.Seniority;
+import dawahdevs.qa.api.entity.UserEntity;
 import dawahdevs.qa.api.model.AllAuthorsResponse;
 import dawahdevs.qa.api.model.AllQuestionsResponse;
 import dawahdevs.qa.api.model.AllUsersResponse;
+import dawahdevs.qa.api.model.AuthorByIdResponse;
+import dawahdevs.qa.api.model.QuestionByIdResponse;
+import dawahdevs.qa.api.model.UserByIdResponse;
 import dawahdevs.qa.api.transformer.QaApiTransformer;
 
 public class QaApiTransformerTest {
@@ -43,6 +46,16 @@ public class QaApiTransformerTest {
 	}
 
 	@Test
+	public void testTransformQuestionById() {
+		QuestionByIdResponse questionByIdResponse = qaApiTransformer.transformQuestionById(createDbQuestion());
+
+		assertEquals("Id", questionByIdResponse.getQuestion().getId(), createDbQuestion().getId().intValue());
+		assertEquals("Text", questionByIdResponse.getQuestion().getText(), createDbQuestion().getText());
+		assertEquals("Lang", questionByIdResponse.getQuestion().getLang(), createDbQuestion().getLang().toString());
+		assertEquals("User Id", questionByIdResponse.getQuestion().getUserId(), createDbQuestion().getUser().getId().intValue());
+	}
+
+	@Test
 	public void testTransformUserList() {
 		AllUsersResponse allUsersResponse = qaApiTransformer.transformUserList(createDbUserList());
 
@@ -50,6 +63,15 @@ public class QaApiTransformerTest {
 		assertEquals("Name", allUsersResponse.getUsers().get(0).getName(), createDbUserList().get(0).getName());
 		assertEquals("Default Lang", allUsersResponse.getUsers().get(0).getDefaultLang(), createDbUserList().get(0).getDefaultLang().toString());
 
+	}
+
+	@Test
+	public void testTransformUserById() {
+		UserByIdResponse userByIdResponse = qaApiTransformer.transformUserById(createDbUser());
+
+		assertEquals("Id", userByIdResponse.getUser().getId(), createDbUser().getId().intValue());
+		assertEquals("Name", userByIdResponse.getUser().getName(), createDbUser().getName());
+		assertEquals("Default Lang", userByIdResponse.getUser().getDefaultLang(), createDbUser().getDefaultLang().toString());
 	}
 
 	@Test
@@ -64,8 +86,19 @@ public class QaApiTransformerTest {
 
 	}
 
-	private List<DbQuestion> createDbQuestionList() {
-		List<DbQuestion> dbQuestionList = new ArrayList<>();
+	@Test
+	public void testTransformAuthorById() {
+		AuthorByIdResponse authorByIdResponse = qaApiTransformer.transformAuthorById(createDbAuthor());
+
+		assertEquals("Id", authorByIdResponse.getAuthor().getId(), createDbAuthor().getId().intValue());
+		assertEquals("Name", authorByIdResponse.getAuthor().getName(), createDbAuthor().getName());
+		assertEquals("Default Lang", authorByIdResponse.getAuthor().getDefaultLang(), createDbAuthor().getDefaultLang().toString());
+		assertEquals("School", authorByIdResponse.getAuthor().getSchool(), createDbAuthor().getSchool().toString());
+		assertEquals("Seniority", authorByIdResponse.getAuthor().getSeniority(), createDbAuthor().getSeniority().toString());
+	}
+
+	private List<QuestionEntity> createDbQuestionList() {
+		List<QuestionEntity> dbQuestionList = new ArrayList<>();
 
 		dbQuestionList.add(createDbQuestion());
 
@@ -73,8 +106,8 @@ public class QaApiTransformerTest {
 
 	}
 
-	private List<DbUser> createDbUserList() {
-		List<DbUser> dbUserList = new ArrayList<>();
+	private List<UserEntity> createDbUserList() {
+		List<UserEntity> dbUserList = new ArrayList<>();
 
 		dbUserList.add(createDbUser());
 
@@ -82,8 +115,8 @@ public class QaApiTransformerTest {
 
 	}
 
-	private List<DbAuthor> createDbAuthorList() {
-		List<DbAuthor> dbAuthorList = new ArrayList<>();
+	private List<AuthorEntity> createDbAuthorList() {
+		List<AuthorEntity> dbAuthorList = new ArrayList<>();
 
 		dbAuthorList.add(createDbAuthor());
 
@@ -91,8 +124,8 @@ public class QaApiTransformerTest {
 
 	}
 
-	private DbQuestion createDbQuestion() {
-		DbQuestion dbQuestion = new DbQuestion();
+	private QuestionEntity createDbQuestion() {
+		QuestionEntity dbQuestion = new QuestionEntity();
 
 		dbQuestion.setId(1);
 		dbQuestion.setLang(Lang.EN);
@@ -102,8 +135,8 @@ public class QaApiTransformerTest {
 		return dbQuestion;
 	}
 
-	private DbUser createDbUser() {
-		DbUser dbUser = new DbUser();
+	private UserEntity createDbUser() {
+		UserEntity dbUser = new UserEntity();
 
 		dbUser.setId(1);
 		dbUser.setName("Mohammad");
@@ -112,8 +145,8 @@ public class QaApiTransformerTest {
 		return dbUser;
 	}
 
-	private DbAuthor createDbAuthor() {
-		DbAuthor dbAuthor = new DbAuthor();
+	private AuthorEntity createDbAuthor() {
+		AuthorEntity dbAuthor = new AuthorEntity();
 
 		dbAuthor.setId(1);
 		dbAuthor.setName("Mohammad");

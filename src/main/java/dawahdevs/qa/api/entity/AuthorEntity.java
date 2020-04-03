@@ -4,8 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -15,21 +14,18 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class DbAnswer {
+@Table(name = "author")
+public class AuthorEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
 	@Length(max = 100)
-	private String text;
+	private String name;
 
-	@OneToOne
-	@JoinColumn
-	private DbQuestion question;
+	private Seniority seniority;
 
-	@OneToOne
-	@JoinColumn
-	private DbAuthor author;
+	private School school;
 
-	private Lang lang;
+	private Lang defaultLang;
 }

@@ -8,12 +8,12 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import dawahdevs.qa.api.entity.DbAuthor;
-import dawahdevs.qa.api.entity.DbQuestion;
-import dawahdevs.qa.api.entity.DbUser;
+import dawahdevs.qa.api.entity.AuthorEntity;
 import dawahdevs.qa.api.entity.Lang;
+import dawahdevs.qa.api.entity.QuestionEntity;
 import dawahdevs.qa.api.entity.School;
 import dawahdevs.qa.api.entity.Seniority;
+import dawahdevs.qa.api.entity.UserEntity;
 import dawahdevs.qa.api.model.AllAuthorsResponse;
 import dawahdevs.qa.api.model.AllQuestionsResponse;
 import dawahdevs.qa.api.model.AllUsersResponse;
@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 @Component
 @AllArgsConstructor
 public class QaApiTransformer {
-	public AllQuestionsResponse transformQuestionList(final Iterable<DbQuestion> dbQuestionsList) {
+	public AllQuestionsResponse transformQuestionList(final Iterable<QuestionEntity> dbQuestionsList) {
 		AllQuestionsResponse allQuestionsResponse = new AllQuestionsResponse();
 
 		optionalMap(dbQuestionsList, this::extractQuestions, allQuestionsResponse::setQuestions);
@@ -36,17 +36,15 @@ public class QaApiTransformer {
 		return allQuestionsResponse;
 	}
 
-	public QuestionByIdResponse transformQuestionById(final DbQuestion dbQuestion) {
+	public QuestionByIdResponse transformQuestionById(final QuestionEntity dbQuestion) {
 		QuestionByIdResponse questionByIdResponse = new QuestionByIdResponse();
 
 		optionalMap(dbQuestion, this::extractQuestion, questionByIdResponse::setQuestion);
-		// questionByIdResponse.setAnswers(answers);
-		// questionByIdResponse.setComments(comments);
 
 		return questionByIdResponse;
 	}
 
-	public AllUsersResponse transformUserList(final Iterable<DbUser> dbUserList) {
+	public AllUsersResponse transformUserList(final Iterable<UserEntity> dbUserList) {
 		AllUsersResponse allUsersResponse = new AllUsersResponse();
 
 		optionalMap(dbUserList, this::extractUsers, allUsersResponse::setUsers);
@@ -54,7 +52,7 @@ public class QaApiTransformer {
 		return allUsersResponse;
 	}
 
-	public UserByIdResponse transformUserById(final DbUser dbUser) {
+	public UserByIdResponse transformUserById(final UserEntity dbUser) {
 		UserByIdResponse userByIdResponse = new UserByIdResponse();
 
 		optionalMap(dbUser, this::extractUser, userByIdResponse::setUser);
@@ -62,7 +60,7 @@ public class QaApiTransformer {
 		return userByIdResponse;
 	}
 
-	public AllAuthorsResponse transformAuthorList(final Iterable<DbAuthor> dbAuthorList) {
+	public AllAuthorsResponse transformAuthorList(final Iterable<AuthorEntity> dbAuthorList) {
 		AllAuthorsResponse allAuthorsResponse = new AllAuthorsResponse();
 
 		optionalMap(dbAuthorList, this::extractAuthors, allAuthorsResponse::setAuthors);
@@ -70,7 +68,7 @@ public class QaApiTransformer {
 		return allAuthorsResponse;
 	}
 
-	public AuthorByIdResponse transformAuthorById(final DbAuthor dbAuthor) {
+	public AuthorByIdResponse transformAuthorById(final AuthorEntity dbAuthor) {
 		AuthorByIdResponse authorByIdResponse = new AuthorByIdResponse();
 
 		optionalMap(dbAuthor, this::extractAuthor, authorByIdResponse::setAuthor);
@@ -78,7 +76,7 @@ public class QaApiTransformer {
 		return authorByIdResponse;
 	}
 
-	private List<Question> extractQuestions(final Iterable<DbQuestion> dbQuestionsList) {
+	private List<Question> extractQuestions(final Iterable<QuestionEntity> dbQuestionsList) {
 
 		List<Question> questions = new ArrayList<>();
 
@@ -87,7 +85,7 @@ public class QaApiTransformer {
 		return questions;
 	}
 
-	private List<User> extractUsers(final Iterable<DbUser> dbUserList) {
+	private List<User> extractUsers(final Iterable<UserEntity> dbUserList) {
 
 		List<User> users = new ArrayList<>();
 
@@ -96,7 +94,7 @@ public class QaApiTransformer {
 		return users;
 	}
 
-	private List<Author> extractAuthors(final Iterable<DbAuthor> dbAuthorList) {
+	private List<Author> extractAuthors(final Iterable<AuthorEntity> dbAuthorList) {
 
 		List<Author> authors = new ArrayList<>();
 
@@ -105,31 +103,31 @@ public class QaApiTransformer {
 		return authors;
 	}
 
-	private Question extractQuestion(final DbQuestion dbQuestion) {
+	private Question extractQuestion(final QuestionEntity dbQuestion) {
 		Question question = new Question();
 
-		optionalMap(dbQuestion, DbQuestion::getText, question::setText);
+		optionalMap(dbQuestion, QuestionEntity::getText, question::setText);
 		optionalMap(dbQuestion.getId(), Integer::intValue, question::setId);
 		optionalMap(dbQuestion.getLang(), Lang::toString, question::setLang);
-		Optional.ofNullable(dbQuestion.getUser()).map(DbUser::getId).map(Integer::intValue).ifPresent(question::setUserId);
+		Optional.ofNullable(dbQuestion.getUser()).map(UserEntity::getId).map(Integer::intValue).ifPresent(question::setUserId);
 
 		return question;
 	}
 
-	private User extractUser(final DbUser dbUser) {
+	private User extractUser(final UserEntity dbUser) {
 		User user = new User();
 
-		optionalMap(dbUser, DbUser::getName, user::setName);
+		optionalMap(dbUser, UserEntity::getName, user::setName);
 		optionalMap(dbUser.getId(), Integer::intValue, user::setId);
 		optionalMap(dbUser.getDefaultLang(), Lang::toString, user::setDefaultLang);
 
 		return user;
 	}
 
-	private Author extractAuthor(final DbAuthor dbAuthor) {
+	private Author extractAuthor(final AuthorEntity dbAuthor) {
 		Author author = new Author();
 
-		optionalMap(dbAuthor, DbAuthor::getName, author::setName);
+		optionalMap(dbAuthor, AuthorEntity::getName, author::setName);
 		optionalMap(dbAuthor.getId(), Integer::intValue, author::setId);
 		optionalMap(dbAuthor.getSchool(), School::toString, author::setSchool);
 		optionalMap(dbAuthor.getSeniority(), Seniority::toString, author::setSeniority);

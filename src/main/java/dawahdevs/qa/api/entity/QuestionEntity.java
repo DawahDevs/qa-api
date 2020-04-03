@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -15,7 +16,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class DbQuestion {
+@Table(name = "question")
+public class QuestionEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -25,7 +27,7 @@ public class DbQuestion {
 
 	@ManyToOne
 	@JoinColumn
-	private DbUser user;
+	private UserEntity user;
 
 	private Lang lang;
 }
