@@ -1,14 +1,17 @@
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
   application:
     name: qa-api
   datasource:
     url: jdbc:mysql://testdatabase.cbda90k3dzzk.us-east-2.rds.amazonaws.com:3306/innodb
-    username: admin  
+    username: admin
     password: testpassword
-    
+
 server:
   port: 5000
-  
+
 hystrix:
   metrics:
     enabled: true
@@ -17,7 +20,7 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 5000           
-                      
+            timeoutInMilliseconds: 5000
+
 config:
-  example-url: 
+  example-url:

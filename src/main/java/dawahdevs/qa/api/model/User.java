@@ -5,6 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AllQuestionsBackendResponse {
-
+public class User {
+	private int id;
+	private String name;
+	private String defaultLang;
 }

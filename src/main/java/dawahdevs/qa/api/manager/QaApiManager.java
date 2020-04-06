@@ -2,37 +2,64 @@ package dawahdevs.qa.api.manager;
 
 import org.springframework.stereotype.Service;
 
-import dawahdevs.qa.api.dao.QaApiDAO;
-import dawahdevs.qa.api.model.AllQuestionsBackendResponse;
+import dawahdevs.qa.api.entity.AuthorEntity;
+import dawahdevs.qa.api.entity.QuestionEntity;
+import dawahdevs.qa.api.entity.UserEntity;
+import dawahdevs.qa.api.model.AllAuthorsResponse;
 import dawahdevs.qa.api.model.AllQuestionsResponse;
-import dawahdevs.qa.api.model.QuestionBackendResponse;
-import dawahdevs.qa.api.model.QuestionResponse;
+import dawahdevs.qa.api.model.AllUsersResponse;
+import dawahdevs.qa.api.model.AuthorByIdResponse;
+import dawahdevs.qa.api.model.QuestionByIdResponse;
+import dawahdevs.qa.api.model.UserByIdResponse;
+import dawahdevs.qa.api.repository.AuthorRepository;
+import dawahdevs.qa.api.repository.QuestionRepository;
+import dawahdevs.qa.api.repository.UserRepository;
 import dawahdevs.qa.api.transformer.QaApiTransformer;
-import dawahdevs.qa.api.validator.QaApiValidator;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class QaApiManager {
 
-	private final QaApiDAO qaApiDAO;
 	private final QaApiTransformer qaApiTransformer;
-	private final QaApiValidator qaApiValidator;
+	private final QuestionRepository questionRepository;
+	private final UserRepository userRepository;
+	private final AuthorRepository authorRepository;
 
-	public AllQuestionsResponse getAllQuestions() {
-		qaApiValidator.validate();
+	public AllQuestionsResponse getQuestions() {
+		Iterable<QuestionEntity> questionList = questionRepository.findAll();
 
-		AllQuestionsBackendResponse allQuestionsBackendResponse = qaApiDAO.getAllQuestions();
-
-		return qaApiTransformer.transformBeResponseToAllQuestions(allQuestionsBackendResponse);
+		return qaApiTransformer.transformQuestionList(questionList);
 	}
-	
-	public QuestionResponse getQuestion(final int questionId) {
-		qaApiValidator.validate();
-	
-		QuestionBackendResponse questionBackendResponse = qaApiDAO.getQuestion(questionId);
-	
-		return qaApiTransformer.transformBeResponseToQuestion(questionBackendResponse);
+
+	public QuestionByIdResponse getQuestionById(final int questionId) {
+		QuestionEntity questionEntity = questionRepository.findById(questionId).orElseThrow(() -> new RuntimeException());
+
+		return qaApiTransformer.transformQuestionById(questionEntity);
+	}
+
+	public AllUsersResponse getUsers() {
+		Iterable<UserEntity> userList = userRepository.findAll();
+
+		return qaApiTransformer.transformUserList(userList);
+	}
+
+	public UserByIdResponse getUserById(final int userId) {
+		UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException());
+
+		return qaApiTransformer.transformUserById(userEntity);
+	}
+
+	public AllAuthorsResponse getAuthors() {
+		Iterable<AuthorEntity> authorList = authorRepository.findAll();
+
+		return qaApiTransformer.transformAuthorList(authorList);
+	}
+
+	public AuthorByIdResponse getAuthorById(final int authorId) {
+		AuthorEntity authorEntity = authorRepository.findById(authorId).orElseThrow(() -> new RuntimeException());
+
+		return qaApiTransformer.transformAuthorById(authorEntity);
 	}
 
 }
